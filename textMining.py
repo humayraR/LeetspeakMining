@@ -26,7 +26,7 @@ def getLeetWordList(inputStr):
     leetList = []
 
     for word in tokenList:
-        if not word.isalpha() and len(word) > 1:
+        if not word.isalpha() and len(word) > 1 and not word.isnumeric():
             leetList.append(word)
 
     return leetList # returns the list of leetwords in a given text body
@@ -88,7 +88,7 @@ def processTextInput(textInput): # per row processing: get leetWords, for each l
         print("Possible Substitutions and counts: " + str(possibleSubs))
 
 
-testStr = "He11o World !"     
+testStr = "He11o World !!"     
 
 processTextInput(testStr)
 print("Final Leet Dictionary: " + str(leetDict))
