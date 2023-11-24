@@ -44,10 +44,10 @@ def getMatchList(leetWord):
     return sameSizeCands # e.g: ['hello', 'hella', 'hells'] for hell0
 
 
-def getPossibleSubstitutions(leetWord):
-    candidates = getMatchList(leetWord)
-    print(leetWord)
-    print(candidates)
+def getPossibleSubstitutions(leetWord, candidates):
+    # candidates = getMatchList(leetWord)
+    # print(leetWord)
+    # print(candidates)
     substitutions = {}
     
     for word in candidates:
@@ -68,8 +68,8 @@ def getPossibleSubstitutions(leetWord):
     return substitutions # e.g: {'A': {'3',1}, 'E': {'3',1}} 
 
 # for a given leet word , add the possible leet substituions to the global leet dictionary
-def updateLeetDict(leetWord):
-    subs = getPossibleSubstitutions(leetWord)
+def updateLeetDict(subs):
+    # subs = getPossibleSubstitutions(leetWord)
     for key in subs:
         for leetChar in subs[key]:
             if leetChar in leetDict[key]: # if '3' is in list of 'E'
@@ -77,14 +77,21 @@ def updateLeetDict(leetWord):
             else:
                 leetDict[key][leetChar] = subs[key][leetChar]
 
-def processTextInput(): # per row processing: get leetWords, for each leetWord get matches, for each match get context and update leetDict
-    return 1
+def processTextInput(textInput): # per row processing: get leetWords, for each leetWord get matches, for each match get context and update leetDict
+    leetWordList = getLeetWordList(textInput)
+    for lword in leetWordList:
+        possibleMatches = getMatchList(lword)
+        possibleSubs = getPossibleSubstitutions(lword, possibleMatches)
+        updateLeetDict(possibleSubs)
+        print("LeetWord: " + lword)
+        print("Candidate list: " + str(possibleMatches))
+        print("Possible Substitutions and counts: " + str(possibleSubs))
 
 
-testStr = "H31l0 W0rld  !"
+testStr = "He11o World !"     
 
-updateLeetDict("4R5e")
-print(leetDict)
+processTextInput(testStr)
+print("Final Leet Dictionary: " + str(leetDict))
 
 
 
