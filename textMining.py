@@ -1,9 +1,11 @@
 from nltk.tokenize import word_tokenize
 from spellchecker import SpellChecker
-import pandas
+import pandas as pd
+import re
 
+MAX_LEET_WORD_SIZE = 15 # word length
 # load common words
-commonWords_df = pandas.read_csv('commonWords.csv')
+commonWords_df = pd.read_csv('commonWords.csv')
 
 # dictionary for possible leet substitutions with frequency/count {'A': {}, 'B': {},...,'Z': {}}
 leetDict = {} 
@@ -22,11 +24,14 @@ def getWordFrequency(word):
     return wordFrequency
     
 def getLeetWordList(inputStr):
-    tokenList = word_tokenize(inputStr)
+    regex = ".*[a-zA-Z].*" # regex for string containing at least 1 alphabet, to filter just numbers/special character/emojis tokens
+    # tokenList = word_tokenize(inputStr)
+    tokenList = inputStr.split(" ")
     leetList = []
 
     for word in tokenList:
-        if not word.isalpha() and len(word) > 1 and not word.isnumeric():
+        word = word.strip(".,'?")
+        if not word.isalpha() and re.search(".*[a-zA-Z].*", word) and len(word) > 1 and len(word) <= MAX_LEET_WORD_SIZE:
             leetList.append(word)
 
     return leetList # returns the list of leetwords in a given text body
@@ -79,6 +84,7 @@ def updateLeetDict(subs):
 
 def processTextInput(textInput): # per row processing: get leetWords, for each leetWord get matches, for each match get context and update leetDict
     leetWordList = getLeetWordList(textInput)
+    print("LeetWord List:" + str(leetWordList))
     for lword in leetWordList:
         possibleMatches = getMatchList(lword)
         possibleSubs = getPossibleSubstitutions(lword, possibleMatches)
@@ -88,9 +94,9 @@ def processTextInput(textInput): # per row processing: get leetWords, for each l
         print("Possible Substitutions and counts: " + str(possibleSubs))
 
 
-testStr = "He11o World !!"     
+testStr = "He11o W0rld !!"     
 
-processTextInput(testStr)
+processTextInput("Wow. Mr. Bezos replied to the founder of $doge. Much wow!#crypto #doge")
 print("Final Leet Dictionary: " + str(leetDict))
 
 
