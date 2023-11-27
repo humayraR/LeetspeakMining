@@ -96,8 +96,46 @@ def processTextInput(textInput): # per row processing: get leetWords, for each l
 
 testStr = "He11o W0rld !!"     
 
-processTextInput("Wow. Mr. Bezos replied to the founder of $doge. Much wow!#crypto #doge")
-print("Final Leet Dictionary: " + str(leetDict))
+# processTextInput(testStr)
+# print("Final Leet Dictionary: " + str(leetDict))
+
+# inverseDict ={}
+# for key in leetDict.keys():
+#     for key2 in leetDict[key].keys():
+#         print(key, key2)
+
+# print(leetDict["C"]["1"])
+
+#get the best match using the leet FP list to replace the leetword
+def getBestMatch(leetWord):
+    matchedWord = list(leetWord)
+    #trim the leet word first, get rid of all the unnecessary punctuation 
+    candList = getMatchList(leetWord)
+    
+    charPos = 0
+    for char in leetWord:
+        subAlphas = []
+        subAlphaScores = []
+        if not char.isalpha():
+            for cand in candList:
+                if len(cand) == len(leetWord):
+                    subAlphas.append(cand[charPos].upper())
+                    subAlphaScores.append(leet_dict[cand[charPos].upper()][char])
+            maxConf = max(subAlphaScores)
+            index = subAlphaScores.index(maxConf)
+            matchedWord[charPos] = subAlphas[index]
+        charPos += 1
+    
+    matchedWord = "".join(matchedWord)
+
+    spell = SpellChecker()
+    finalMatch = spell.correction(matchedWord)
+    
+    return finalMatch
+
+print(getBestMatch("$Helly"))
+
+
 
 
 
