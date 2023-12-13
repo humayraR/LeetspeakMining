@@ -18,3 +18,20 @@ https://huggingface.co/datasets/levalencia/TwitterHateSpeech
 https://huggingface.co/datasets/jacksoncsie/Famous-Keyword-Twitter-Replies 
 https://huggingface.co/datasets/strombergnlp/broad_twitter_corpus/blob/main/README.md 
 test
+
+profanity(with leet) - https://www.kaggle.com/datasets/konradb/profanities-in-english-collection . https://huggingface.co/datasets/mmathys/profanity
+reddit - https://huggingface.co/datasets/SocialGrep/one-million-reddit-jokes
+bad words(no leet) - https://data.world/wordlists/dirty-naughty-obscene-and-otherwise-bad-words-in-english
+https://huggingface.co/datasets/shawarmas/profanity-filter 
+
+https://huggingface.co/datasets/SocialGrep/top-american-universities-on-reddit
+https://huggingface.co/datasets/ksang/TwitchStreams #nothing much found
+https://huggingface.co/datasets/breadlicker45/discord_data # not clean.. too many punctuations
+https://huggingface.co/datasets/SophieTr/reddit_clean
+
+nsfw sureddits rare already uncensored, no reason why people would use leetspeak, similarly other reddits.., no filters for profanity
+
+
+found some leet in 
+https://huggingface.co/datasets/breadlicker45/youtube-comments-180k # found some leet
+https://huggingface.co/datasets/civil_comments

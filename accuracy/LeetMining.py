@@ -38,8 +38,8 @@ def getLeetWordList(inputStr):
     leetList = []
     #print(emoji.replace_emoji('hi🤔.', replace=''))
     for word in tokenList:
-        word = word.strip(".,!") # strip common leading/trailing common punctuations, hashtags, tag usernames
-        word = word.lstrip("#@") #remove hashtags, and user tags
+        #word = word.strip(".,!") # strip common leading/trailing common punctuations, hashtags, tag usernames
+        #word = word.lstrip("#@") #remove hashtags, and user tags
         word = re.sub("’|“|'|\"|”|‘|,|\?|&|…", "", word) # remove these punctuations that don't look like alphabets from everywhere
         if not word.isalpha() and re.search(regex, word) and len(word) > 1 and len(word) <= MAX_LEET_WORD_SIZE:
             leetList.append(word)
@@ -105,12 +105,23 @@ def processTextInput(textInput): # per row processing: get leetWords, for each l
         print("Candidate list: " + str(possibleMatches))
         print("Possible Substitutions and counts: " + str(possibleSubs))
 
+def getInverseLeetDict(leet_dict):
+    leet_fp2 = {}
+
+    for key in leet_dict:
+        for leet in leet_dict[key]:
+            if leet not in leet_fp2:
+                leet_fp2[leet] = {}
+            leet_fp2[leet][key] = leet_dict[key][leet]
+
+    return leet_fp2
+
 #get the best match using the leet FP list to replace the leetword
 def getBestMatch(leetWord, leet_dict):
     matchedWord = list(leetWord)
     #trim the leet word first, get rid of all the unnecessary punctuation 
     candList = getMatchList(leetWord)
-    
+
     if len(candList) > 0:
         charPos = 0
         for char in leetWord:
@@ -128,12 +139,24 @@ def getBestMatch(leetWord, leet_dict):
                     maxConf = max(subAlphaScores)
                     index = subAlphaScores.index(maxConf)
                     matchedWord[charPos] = subAlphas[index]
-            charPos += 1
+            charPos += 1           
     
     matchedWord = "".join(matchedWord)
 
     spell = SpellChecker()
     finalMatch = spell.correction(matchedWord)
+
+    if finalMatch is None:
+        matchedWord = list(leetWord)
+        leet_fp2 = getInverseLeetDict(leet_dict)
+        charPos = 0
+        for char in leetWord:
+            if not char.isalpha() and char in leet_fp2:
+                maxConf_subs = max(leet_fp2[char], key=lambda key: leet_fp2[char][key])
+                matchedWord[charPos] = maxConf_subs # substitute with max frequent subs
+            charPos+=1
+        matchedWord = "".join(matchedWord)
+        finalMatch = matchedWord
     
     return finalMatch
 
@@ -163,11 +186,11 @@ def getLeetDict():
 # processTextInput("Wow. Mr. Bezos replied to the founder of $doge. Much wow!#crypto #doge")
 # print("Final Leet Dictionary: " + str(leetDict))
 
-testStr = "He11o W0rld !!"
+# testStr = "He11o W0rld !!"
 
-setupLeetDict()     
+# setupLeetDict()     
 
-processTextInput(testStr)
+# processTextInput(testStr)
 #print("Final Leet Dictionary: " + str(leetDict))
 # word = "kf,n...s"
 # word = re.sub("’|“|'|\"|”|‘|,", "", "kf,ns")
