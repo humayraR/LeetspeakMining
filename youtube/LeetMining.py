@@ -18,7 +18,7 @@ def setupLeetDict():
         leetDict[chr(asc)] = {}
 
 #iinitialize with an existing fp list/leet dict
-def setupLeetDict(leet_dict):
+def initiateLeetDict(leet_dict):
     for key in leet_dict:
         leetDict[key] = leet_dict[key]
 
@@ -33,19 +33,39 @@ def getWordFrequency(word):
         wordRowIndex = commonWords_df.index[commonWords_df['word']==word].tolist()[0]
         wordFrequency = commonWords_df['count'].loc[commonWords_df.index[wordRowIndex]]
     return wordFrequency
+
+#clean all unnecessary punctutations
+def preProcessString(inputStr):
+
+    preProcessed = emoji.replace_emoji(inputStr, replace=' ') # remove emojis
+    preProcessed = preProcessed.replace("<br>", " ")
+    preProcessed = preProcessed.replace(".", " ")
+    preProcessed = preProcessed.replace(",", " ")
+    preProcessed = preProcessed.replace("?", " ")
+    preProcessed = preProcessed.replace("&", " ")
+    preProcessed = preProcessed.replace("\"", "")
+    preProcessed = preProcessed.replace("\'", "")
+    preProcessed = preProcessed.replace("…", " ")
+    preProcessed = preProcessed.replace("’", " ")
+    preProcessed = preProcessed.replace("‘", " ")
+    preProcessed = preProcessed.replace("“", " ")
+    preProcessed = preProcessed.replace("”", " ")
+
+    return preProcessed
     
 #returns list of leetwords from a given string of words, possibly a sentence
 def getLeetWordList(inputStr):
     regex = ".*[a-zA-Z].*" # regex for string containing at least 1 alphabet, to filter just numbers/special character/emojis tokens
     # tokenList = word_tokenize(inputStr)
-    demojized = emoji.replace_emoji(inputStr, replace='') # remove emojis
-    tokenList = demojized.split(" ")
+    preProcessed = preProcessString(inputStr)
+    tokenList = preProcessed.split(" ")
     leetList = []
     #print(emoji.replace_emoji('hi🤔.', replace=''))
     for word in tokenList:
         word = word.strip(".,!") # strip common leading/trailing common punctuations, hashtags, tag usernames
         word = word.lstrip("#@") #remove hashtags, and user tags
-        word = re.sub("’|“|'|\"|”|‘|,|\?|&|…|<|>", "", word) # remove these punctuations that don't look like alphabets from everywhere
+        word = re.sub("’|“|'|\"|”|‘|,|\?|&|…|<|>|\.", "", word) # remove these punctuations that don't look like alphabets from everywhere
+        word = word.replace('(reply)', "") #often seen in youtube comments
         if not word.isalpha() and re.search(regex, word) and len(word) > 1 and len(word) <= MAX_LEET_WORD_SIZE:
             leetList.append(word)
 
