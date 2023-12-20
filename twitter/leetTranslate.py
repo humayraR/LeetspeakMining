@@ -108,12 +108,14 @@ def leetspeak_to_text(word, leet_dict, common_words):
 #########
 #main function for quick testing
 # load common words from a CSV file
-common_words = load_common_words('commonWords.csv')
+def caller(word):
+    common_words = load_common_words('commonWords.csv')
+    leetspeak_to_text(word, leet_dict, common_words)
 
-input_words = ["@bstract", "3x/-\\mpl3", "1o0k", "C-reat"]
-output_words = [leetspeak_to_text(word, leet_dict, common_words) for word in input_words]
+#input_words = ["@bstract", "3x/-\\mpl3", "1o0k", "C-reat"]
+#output_words = [leetspeak_to_text(word, leet_dict, common_words) for word in input_words]
 
-for original, converted in zip(input_words, output_words):
-    print(f"Original: {original}, Converted: {converted}")
+#for original, converted in zip(input_words, output_words):
+   # print(f"Original: {original}, Converted: {converted}")
 
 
