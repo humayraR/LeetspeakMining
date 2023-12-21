@@ -30,7 +30,9 @@
        5. Trans_YT_Test.ipynb is the sentiment analysis for translation algorithm
 
 ## Results:
-
+Alg 1 = leet translation
+Alg 1 youtube results = test2_result_yt.csv
+Alg 1 used same original sentiment analysis as Alg 2
 Alg 2 = leet mining 
 Alg 2 Accuracy results - pyleet_accuracy_result.csv, profanity_test_result.csv
 Alg 2 Twitter result csv - without leet mine "twitter/test1_result.csv", with leet mine "twitter/test2_result_trial2.csv", overall - "twitter/avg_compare_tweet.csv"
