@@ -1,37 +1,47 @@
-# LeetspeakMining
-Analyzing use of leetspeak in social media
+# An Analysis of Methods to Combat Leetspeak Content Obfuscation
 
-installation requirements:
-pyspellchecker
-nlkt
+## Required Installations:
+- pyleetspeak - <https://pypi.org/project/pyleetspeak/> 
+- transformers - <https://huggingface.co/docs/transformers/installation>
 
-most common words - https://www.kaggle.com/datasets/rtatman/english-word-frequency/ 
+## source code:
+1. Leetspeak Translation Algorithm
 
-youtube comments source - https://huggingface.co/datasets/breadlicker45/youtube-comments-180k 
-https://huggingface.co/datasets/breadlicker45/youtube-comments-v2 (376k) [might not see good results, because filters might already be in place]
+2. Leetspeak Mining Algorithm
+    a. Accuracy tests:
+        - folder: accuracy  
 
-reddit - https://huggingface.co/datasets/HuggingFaceGECLM/REDDIT_comments (7.5 M rows 109gb may be too big)
+        - synthetic data using pyleetspeak accuracy test - 1_testAccuracy.ipynb.  
+         Tested on words from commonWords.csv.  
+          Result dataset - pyleet_accuracy_result.csv  
 
-civil comments - https://huggingface.co/datasets/civil_comments news comments, to see how likely are people to use leetspeak in more formal platforms (might find discriminatory/racist words)
+        - accuracy test on profanity word list - 2_testProfanity.ipynb,  
+        test dataset - profanity_en.csv  
+        result dataset - profanity_test_result.csv
+        
+        - Graph analysis - 3_Accuracy_analysis.ipynb
 
-https://huggingface.co/datasets/levalencia/TwitterHateSpeech 
-https://huggingface.co/datasets/jacksoncsie/Famous-Keyword-Twitter-Replies *****
-https://huggingface.co/datasets/strombergnlp/broad_twitter_corpus/blob/main/README.md 
-test
+    b. Social media tests:
+        In both twitter and YouTube folder:
+        1. 1_test1...Ipynb  is the sentiment analysis test WITHOUT leet mine
+        2. 2_train...Ipynb  is the extraction of substitution list
+        3. 3_test2...Ipynb  is the sentiment analysis test WITH leet mine
+        4. the files ending in ...analysis.ipynb are graph analysis
 
-profanity(with leet) - https://www.kaggle.com/datasets/konradb/profanities-in-english-collection . https://huggingface.co/datasets/mmathys/profanity *****
-reddit - https://huggingface.co/datasets/SocialGrep/one-million-reddit-jokes
-bad words(no leet) - https://data.world/wordlists/dirty-naughty-obscene-and-otherwise-bad-words-in-english
-https://huggingface.co/datasets/shawarmas/profanity-filter 
+## Results:
 
-https://huggingface.co/datasets/SocialGrep/top-american-universities-on-reddit
-https://huggingface.co/datasets/ksang/TwitchStreams #nothing much found
-https://huggingface.co/datasets/breadlicker45/discord_data # not clean.. too many punctuations
-https://huggingface.co/datasets/SophieTr/reddit_clean
-
-nsfw sureddits rare already uncensored, no reason why people would use leetspeak, similarly other reddits.., no filters for profanity
+Alg 2 = leet mining 
+Alg 2 Accuracy results - pyleet_accuracy_result.csv, profanity_test_result.csv
+Alg 2 Twitter result csv - without leet mine "twitter/test1_result.csv", with leet mine "twitter/test2_result_trial2.csv", overall - "twitter/avg_compare_tweet.csv"
+Alg 2 Youtube results csv - without leet mine "youtube/test1_noLeet_setiment_result.csv", with leet mine "youtube/test2_result_yt.csv", overall - "\twitter\youtube_sentiment_analysis.csv"
 
 
-found some leet in 
-https://huggingface.co/datasets/breadlicker45/youtube-comments-180k # found some leet *****
-https://huggingface.co/datasets/civil_comments
+## Datasets:
+
+most common words - <https://www.kaggle.com/datasets/rtatman/english-word-frequency/> 
+
+Twitter - <https://huggingface.co/datasets/jacksoncsie/Famous-Keyword-Twitter-Replies>
+
+profanity(with leet) - <https://www.kaggle.com/datasets/konradb/profanities-in-english-collection> 
+
+Youtube - <https://huggingface.co/datasets/breadlicker45/youtube-comments-180k> 
