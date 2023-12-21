@@ -27,6 +27,7 @@
         2. 2_train...Ipynb  is the extraction of substitution list
         3. 3_test2...Ipynb  is the sentiment analysis test WITH leet mine
         4. the files ending in ...analysis.ipynb are graph analysis
+       5. Trans_YT_Test.ipynb is the sentiment analysis for translation algorithm
 
 ## Results:
 
